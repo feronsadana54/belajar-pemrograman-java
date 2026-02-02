@@ -1,13 +1,8 @@
 package com.feron.main;
 
-import com.feron.classcetak.InvoiceProcessor;
+import com.feron.utils.InvoiceProcessor;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-public class TransaksiApp {
+public class AppDay2 {
     public static void main(String[] args) {
         InvoiceProcessor p = new InvoiceProcessor();
 

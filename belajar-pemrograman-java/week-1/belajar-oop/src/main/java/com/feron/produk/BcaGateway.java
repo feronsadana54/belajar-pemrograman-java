@@ -1,7 +1,7 @@
 package com.feron.produk;
 
-import com.feron.classcetak.PaymentReceipt;
-import com.feron.classcetak.PaymentStatus;
+import com.feron.utils.PaymentReceipt;
+import com.feron.utils.PaymentStatus;
 import com.feron.gateway.PaymentGateway;
 
 public class BcaGateway implements PaymentGateway {

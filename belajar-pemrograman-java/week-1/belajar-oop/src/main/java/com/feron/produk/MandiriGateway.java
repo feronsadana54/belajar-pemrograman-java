@@ -1,8 +1,8 @@
 package com.feron.produk;
 
-import com.feron.classcetak.PaymentStatus;
+import com.feron.utils.PaymentStatus;
 import com.feron.gateway.PaymentGateway;
-import com.feron.classcetak.PaymentReceipt;
+import com.feron.utils.PaymentReceipt;
 
 public class MandiriGateway implements PaymentGateway {
 

@@ -5,7 +5,7 @@ import com.feron.produk.BcaGateway;
 import com.feron.produk.MandiriGateway;
 import com.feron.service.PaymentService;
 
-public class App {
+public class AppDay1 {
     public static void main(String[] args) {
         PaymentGateway mandiri = new MandiriGateway();
         PaymentService paymentServiceMandiri = new PaymentService(mandiri);

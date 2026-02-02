@@ -1,4 +1,4 @@
-package com.feron.classcetak;
+package com.feron.utils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,6 +28,10 @@ public class InvoiceProcessor {
             totalAmount += amount;
         }
         return totalAmount;
+    }
+
+    public boolean exists(String invoiceId){
+        return invoiceAmounts.containsKey(invoiceId);
     }
 
 }

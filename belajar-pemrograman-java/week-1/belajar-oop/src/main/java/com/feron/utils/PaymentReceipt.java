@@ -1,4 +1,4 @@
-package com.feron.classcetak;
+package com.feron.utils;
 
 public class PaymentReceipt {
     public final String provider;

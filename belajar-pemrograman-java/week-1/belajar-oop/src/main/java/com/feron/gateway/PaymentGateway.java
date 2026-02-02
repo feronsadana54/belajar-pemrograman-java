@@ -1,7 +1,7 @@
 package com.feron.gateway;
 
-import com.feron.classcetak.PaymentReceipt;
-import com.feron.classcetak.PaymentStatus;
+import com.feron.utils.PaymentReceipt;
+import com.feron.utils.PaymentStatus;
 
 public interface PaymentGateway {
     PaymentReceipt charge(String invoiceId, long amount);
