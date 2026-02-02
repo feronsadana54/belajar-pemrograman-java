@@ -17,7 +17,7 @@ public class BcaGateway implements PaymentGateway {
     }
 
     @Override
-    public PaymentStatus status(String invoiceId, String provider){
-        return new PaymentStatus(invoiceId,provider);
+    public PaymentStatus status(String invoiceId){
+        return new PaymentStatus(invoiceId,"BCA");
     }
 }
