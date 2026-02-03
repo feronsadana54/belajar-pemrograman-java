@@ -29,4 +29,9 @@ public class InvoiceService {
         return processor.getTotalAmount();
     }
 
+    public void deleteInvoice(String invoiceId){
+        if (!processor.exists(invoiceId)) throw new InvoiceNotFoundException(invoiceId);
+        processor.deleteInvoice(invoiceId);
+    }
+
 }

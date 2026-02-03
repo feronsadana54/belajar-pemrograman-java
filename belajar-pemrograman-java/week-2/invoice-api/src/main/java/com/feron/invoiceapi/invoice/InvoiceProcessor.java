@@ -33,4 +33,11 @@ public class InvoiceProcessor {
         }
         return total;
     }
+
+    public boolean deleteInvoice(String invoiceId){
+        boolean delete1 = invoiceAmounts.remove(invoiceId) != null;
+        boolean delete2 = processedInvoiceIds.remove(invoiceId);
+
+       return delete1&&delete2;
+    }
 }
