@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -56,5 +62,23 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorResponse handleRuntimeException(RuntimeException ex){
         return new ErrorResponse("INTERNAL_SERVER_ERROR", ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ValidationErrorResponse handleValidation(MethodArgumentNotValidException ex){
+        Map<String, List<String>> fieldErrors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(err -> {
+            String field = err.getField();
+            String message = err.getDefaultMessage();
+
+            fieldErrors.computeIfAbsent(field, k -> new ArrayList<>()).add(message);
+        });
+        return new ValidationErrorResponse(
+                "VALIDATION_ERROR",
+                "Validation failed",
+                fieldErrors
+        );
     }
 }

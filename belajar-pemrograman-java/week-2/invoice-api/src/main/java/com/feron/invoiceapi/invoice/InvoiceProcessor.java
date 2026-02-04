@@ -20,7 +20,7 @@ public class InvoiceProcessor {
         invoiceAmounts.put(invoiceId,amount);
     }
 
-    public Long getAmount(String invoiceId){
+    public long getAmount(String invoiceId){
         return invoiceAmounts.getOrDefault(invoiceId,0L);
     }
 

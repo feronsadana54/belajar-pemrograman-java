@@ -1,6 +1,7 @@
 package com.feron.invoiceapi.invoice.api;
 
 import com.feron.invoiceapi.invoice.InvoiceService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,8 @@ public class InvoiceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CreateInvoiceRequest request){
-        service.createInvoice(request.invoiceId,request.amount);
+    public void create(@Valid @RequestBody CreateInvoiceRequest request){
+        service.createInvoice(request.getInvoiceId(),request.getAmount());
     }
 
     @GetMapping("/{invoiceId}")
@@ -33,9 +34,7 @@ public class InvoiceController {
 
     @DeleteMapping("/{invoiceId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public DeleteInvoiceResponse deleteInvoice(@PathVariable String invoiceId){
+    public void deleteInvoice(@PathVariable String invoiceId){
         service.deleteInvoice(invoiceId);
-        return new DeleteInvoiceResponse(invoiceId,"Data Berhasil dihapus");
     }
-
 }
