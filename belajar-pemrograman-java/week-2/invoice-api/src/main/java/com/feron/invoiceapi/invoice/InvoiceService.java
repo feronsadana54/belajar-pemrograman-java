@@ -15,14 +15,16 @@ public class InvoiceService {
     }
 
     public void createInvoice(String invoiceId, long amount){
+        String id = normalize(invoiceId);
         if (amount <=0 ) throw new InvalidAmountException(amount);
-        if (!processor.markProcessed(invoiceId)) throw new DuplicateInvoiceException(invoiceId);
-        processor.saveAmount(invoiceId, amount);
+        if (!processor.markProcessed(id)) throw new DuplicateInvoiceException(id);
+        processor.saveAmount(id, amount);
     }
 
     public long getInvoiceAmount(String invoiceId){
-        if (!processor.exists(invoiceId)) throw new InvoiceNotFoundException(invoiceId);
-        return processor.getAmount(invoiceId);
+        String id = normalize(invoiceId);
+        if (!processor.exists(id)) throw new InvoiceNotFoundException(id);
+        return processor.getAmount(id);
     }
 
     public long getTotalAmount(){
@@ -30,8 +32,12 @@ public class InvoiceService {
     }
 
     public void deleteInvoice(String invoiceId){
-        if (!processor.exists(invoiceId)) throw new InvoiceNotFoundException(invoiceId);
-        processor.deleteInvoice(invoiceId);
+        String id = normalize(invoiceId);
+        if (!processor.exists(id)) throw new InvoiceNotFoundException(id);
+        processor.deleteInvoice(id);
     }
 
+    public String normalize(String invoiceId){
+        return invoiceId == null ? null : invoiceId.trim();
+    }
 }
