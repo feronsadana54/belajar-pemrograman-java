@@ -1,9 +1,16 @@
 package com.feron.invoiceapi.invoice.api;
 
-import com.feron.invoiceapi.invoice.InvoiceService;
+import com.feron.invoiceapi.invoice.api.service.InvoiceService;
+import com.feron.invoiceapi.invoice.api.dto.ApiResponseInvoices;
+import com.feron.invoiceapi.invoice.api.dto.CreateInvoiceRequest;
+import com.feron.invoiceapi.invoice.api.dto.InvoiceAmountResponse;
+import com.feron.invoiceapi.invoice.api.dto.TotalResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/invoices")
@@ -25,6 +32,12 @@ public class InvoiceController {
     public InvoiceAmountResponse getInvoice(@PathVariable String invoiceId){
         long amount = service.getInvoiceAmount(invoiceId);
         return new InvoiceAmountResponse(invoiceId,amount);
+    }
+
+    @GetMapping
+    public List<InvoiceAmountResponse> getAllInvoices(){
+        List<InvoiceAmountResponse> data = service.findAll();
+        return data;
     }
 
     @GetMapping("/total")

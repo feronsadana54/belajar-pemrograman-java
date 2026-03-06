@@ -1,4 +1,4 @@
-package com.feron.invoiceapi.invoice.api;
+package com.feron.invoiceapi.invoice.api.validation;
 
 import com.feron.invoiceapi.invoice.errors.DuplicateInvoiceException;
 import com.feron.invoiceapi.invoice.errors.InvalidAmountException;

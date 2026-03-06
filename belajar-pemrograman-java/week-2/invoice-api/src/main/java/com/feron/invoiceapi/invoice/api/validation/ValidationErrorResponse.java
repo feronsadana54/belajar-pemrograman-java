@@ -1,4 +1,4 @@
-package com.feron.invoiceapi.invoice.api;
+package com.feron.invoiceapi.invoice.api.validation;
 
 import java.util.List;
 import java.util.Map;

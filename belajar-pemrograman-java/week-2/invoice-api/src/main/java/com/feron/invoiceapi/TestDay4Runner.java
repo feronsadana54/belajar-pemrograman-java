@@ -1,8 +1,7 @@
 package com.feron.invoiceapi;
 
-import com.feron.invoiceapi.invoice.InvoiceService;
+import com.feron.invoiceapi.invoice.api.service.InvoiceService;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 //@Component
 public class TestDay4Runner implements CommandLineRunner {

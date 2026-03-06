@@ -1,6 +1,7 @@
 package com.feron.invoiceapi.invoice.api;
 
-import com.feron.invoiceapi.invoice.InvoiceService;
+import com.feron.invoiceapi.invoice.api.service.InvoiceService;
+import com.feron.invoiceapi.invoice.api.dto.CreateInvoiceRequest;
 import com.feron.invoiceapi.invoice.errors.DuplicateInvoiceException;
 import com.feron.invoiceapi.invoice.errors.InvoiceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import tools.jackson.databind.ObjectMapper;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
