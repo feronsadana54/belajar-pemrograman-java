@@ -1,10 +1,7 @@
 package com.feron.invoiceapi.invoice.api;
 
+import com.feron.invoiceapi.invoice.api.dto.*;
 import com.feron.invoiceapi.invoice.api.service.InvoiceService;
-import com.feron.invoiceapi.invoice.api.dto.ApiResponseInvoices;
-import com.feron.invoiceapi.invoice.api.dto.CreateInvoiceRequest;
-import com.feron.invoiceapi.invoice.api.dto.InvoiceAmountResponse;
-import com.feron.invoiceapi.invoice.api.dto.TotalResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +46,11 @@ public class InvoiceController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoice(@PathVariable String invoiceId){
         service.deleteInvoice(invoiceId);
+    }
+
+    @PutMapping("/{invoiceId}")
+    public InvoiceAmountResponse updateInvoice(@Valid @RequestBody UpdateInvoiceRequest request, @PathVariable String invoiceId){
+        long update = service.updateInvoice(request.getAmount(),invoiceId);
+        return new InvoiceAmountResponse(invoiceId.trim(),update);
     }
 }

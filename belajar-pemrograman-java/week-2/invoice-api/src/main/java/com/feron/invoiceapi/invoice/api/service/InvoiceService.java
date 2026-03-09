@@ -1,16 +1,20 @@
 package com.feron.invoiceapi.invoice.api.service;
 
+import com.feron.invoiceapi.invoice.api.dto.CreateInvoiceRequest;
 import com.feron.invoiceapi.invoice.api.dto.InvoiceAmountResponse;
+import com.feron.invoiceapi.invoice.api.dto.UpdateInvoiceRequest;
 import com.feron.invoiceapi.invoice.errors.DuplicateInvoiceException;
 import com.feron.invoiceapi.invoice.errors.InvalidAmountException;
 import com.feron.invoiceapi.invoice.errors.InvoiceNotFoundException;
 import com.feron.invoiceapi.invoice.api.repository.InvoiceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class InvoiceService {
 
@@ -26,7 +30,7 @@ public class InvoiceService {
         if (id == null || id.isBlank())throw new IllegalArgumentException("invoiceId wajib diisi");
 
         try {
-            repo.isInsert(id, amount);
+            repo.insert(id, amount);
         }catch (DuplicateKeyException e){
             throw new DuplicateInvoiceException(id);
         }
@@ -34,7 +38,7 @@ public class InvoiceService {
 
     public long getInvoiceAmount(String invoiceId){
         String id = normalize(invoiceId);
-        if (!repo.isExist(id)) throw new InvoiceNotFoundException(id);
+        if (!repo.exist(id)) throw new InvoiceNotFoundException(id);
         return repo.findAmount(id);
     }
 
@@ -54,5 +58,24 @@ public class InvoiceService {
 
     public String normalize(String invoiceId){
         return invoiceId == null ? null : invoiceId.trim();
+    }
+
+    public long updateInvoice(long amount, String invoiceId){
+        String id = normalize(invoiceId);
+
+        if(id == null || id.isBlank()){
+            throw new IllegalArgumentException("invoiceId wajib diisi");
+        }
+
+        if(!repo.exist(id)){
+            throw new InvoiceNotFoundException(id);
+        }
+
+        if(amount <= 0) {
+            throw new InvalidAmountException(amount);
+        }
+
+        int updated = repo.updateAmountByInvoice(id, amount);
+        return repo.findAmount(id);
     }
 }

@@ -16,19 +16,17 @@ public class InvoiceRepository {
         this.jdbc = jdbc;
     }
 
-    public boolean isInsert(String invoice,long amount){
+    public boolean insert(String invoice,long amount){
         int result = jdbc.update("""
         INSERT INTO dbo.invoices(invoice_id, amount) VALUES (?,?)
         """,invoice,amount);
-
         if (result == 1) {
             return true;
         }
-
         return false;
     }
 
-    public boolean isExist(String invoice){
+    public boolean exist(String invoice){
         Integer count = jdbc.queryForObject(
           "SELECT COUNT(1) FROM dbo.invoices WHERE invoice_id = ?",
           Integer.class,
@@ -38,19 +36,19 @@ public class InvoiceRepository {
         return count != null && count > 0;
     }
 
-    public Long findAmount(String invoiceId){
+    public long findAmount(String invoiceId){
         Long result = jdbc.queryForObject(
                 "SELECT amount FROM dbo.invoices WHERE invoice_id = ?",
                 Long.class,
                 invoiceId
         );
 
-        return result;
+        return result == null ? 0L : result;
     }
 
     public Long findTotalAmount(){
         return jdbc.queryForObject(
-                "SELECT SUM(amount) FROM dbo.invoices",
+                "SELECT COALESCE(SUM(amount),0) FROM dbo.invoices",
                 Long.class
         );
     }
@@ -65,13 +63,11 @@ public class InvoiceRepository {
         return count == null ? 0L : count;
     }
 
-    public int updateAmountByInvoice(String invoice, Long amount){
+    public int updateAmountByInvoice(String invoice, long amount){
         int count = jdbc.update(
                 "UPDATE dbo.invoices SET amount = ? WHERE invoice_id = ?",
-                amount,
-                invoice
+                amount, invoice
         );
-
         return count;
     }
 
@@ -80,13 +76,12 @@ public class InvoiceRepository {
     }
 
     public List<InvoiceAmountResponse> findAll() {
-        List<Map<String, Object>> rows = jdbc.queryForList("SELECT invoice_id, amount FROM dbo.invoices");
-
-        return rows.stream()
-                .map(row -> new InvoiceAmountResponse(
-                        (String) row.get("invoice_id"),
-                        ((Number) row.get("amount")).longValue()
-                ))
-                .toList();
+        return jdbc.query(
+                "SELECT invoice_id, amount FROM dbo.invoices",
+                (rs, rowNum) -> new InvoiceAmountResponse(
+                        rs.getString("invoice_id"),
+                        rs.getLong("amount")
+                )
+        );
     }
 }
